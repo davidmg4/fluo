@@ -1,0 +1,1102 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<!-- D3 Template, can run with: python -m SimpleHTTPServer 8000
+-->
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <!-- Load D3 from site -->
+    <script src="https://d3js.org/d3.v7.js" charset="utf-8"></script>
+<!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
+  rel="stylesheet"/>
+
+  <!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+
+<script type="text/javascript" scr="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.js">
+</script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
+    </head>
+    <!-- CSS (Styling) -->
+    <style type="text/css">
+    html{
+      -webkit-font-smoothing:antialiased;
+    }
+    body{
+      color:#656565;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      overflow-y:hidden;
+    }
+
+
+
+
+    ul {
+      margin-top:2em;
+    }
+
+    path { 
+    stroke-width: 2;
+    fill: none; 
+    }
+    .line-path{
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    mix-blend-mode: multiply;
+}
+
+
+
+  main {
+    margin: 0;
+  }
+  
+  #worldTable {
+  height: 100%;
+  top: 40px;
+  left: 20px;
+  margin-left: 25px;
+}
+
+
+table { 
+  top: 40px;
+  left: 20px;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: x-small;
+}
+
+
+table, th, td { border: 1px solid black; }
+
+td, th {
+  padding: 5px;
+  text-align: center;
+  height: 20px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 22%);
+}
+
+th {
+  background-color: white;
+  color: #black ;
+}
+
+
+tr:hover td { background-color: #edf8b1; }
+
+#top_bar {
+  width: 100%;
+  color: white;
+  padding-top:2em;
+  background: rgb(24,45,32);
+background: linear-gradient(180deg, rgba(24,45,32,1) 0%, rgba(96,189,77,1) 78%);
+margin:0 0 0 0;
+  
+}
+
+#left-button, #right-button{
+  width:2em;
+  height: 2em;
+}
+
+#left-click{
+  float:left;
+  width:auto !important;
+  line-height: auto !important;
+}
+
+#right-click{
+  float:right !important;
+  width:auto !important;
+  line-height: auto !important;
+}
+
+#slide-label{
+      margin:auto; 
+    display:table;
+}
+button{
+  background: transparent;
+  border: none !important;
+  font-size:0;
+}
+i{
+  background:transparent;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 0px 50px rgba(0,0,0,0); 
+box-shadow: 0px 10px 13px -7px #000000, 5px 5px 0px 50px rgba(0,0,0,0);
+}
+
+h1, h2,h3,h4,h5{
+      
+  color:#010101;
+}
+
+td.Green {
+  background-color: #238823;
+}
+
+td.Yellow {
+  background-color: #FFBF00;
+}
+td.Red {
+  background-color: #D2222D;
+}
+
+
+
+    </style>
+    <!-- End CSS (Styling) -->
+
+    </head>
+    <div class="container-fluid navbar-nav" id="top_bar">
+      <section class="text-center">
+        <div>
+          <h1 class="mb-1 navbar-text upper"><strong>Fluoride Revisited</strong></h1>
+          
+        </div>
+      </section>
+  </div>
+
+  <button type="button" id="left-click" class="left-button btn btn-floating"  data-mdb-ripple-color="dark">
+  <i class="fas fa-angle-left fa-3x"></i></button>
+
+  <span id="slideLabel">><input type="range" value="1" min="1" max="6" class="slider navbar-toggler" id="range" title=""></span>
+
+<button type="button" id="right-click" class="btn btn-floating right-button "
+data-mdb-ripple-color="dark">
+<i class="fas fa-angle-right fa-3x"></i></button>
+
+  <main class="my-5">
+
+  <body onload="ch0()">
+
+    
+<div class="container-fluid">
+
+<div class="row">
+  <div class="col-lg-6 mb-4" id="left-content">
+
+</div>
+
+  <div class="col-lg-6 mb-4" id="right-content">
+
+<ol class="text-right">
+  <li id="some-id">Unique element</li>
+  <li>Another list element</li>
+  <li>
+    <p>Paragraph inside list element</p>
+    <p>Second paragraph</p>
+  </li>
+</ol>
+  <!-- Using listeners -->
+  <h1 id="click-me">Click on me!</h1>
+  <p class="hover-me">Hover over me!</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+
+
+
+  <!-- Begin Javascript -->
+  <script type="text/javascript">
+
+var colorScale = {red: '#D2222D',yellow:'#FFBF00',green:"#238823"}
+// Slider management
+
+var slider = document.getElementById("range");
+var slideLabel = document.getElementById("slideLabel");
+var slideDict = {
+  1: "ch0()",
+  2: "ch1()",
+  3: "ch2()",
+  4: "ch3()",
+  5: "ch4()",
+  6: "ch5()",
+  7: "ch6()"
+};
+
+var leftArrow = document.getElementById("left-click");
+var rightArrow = document.getElementById("right-click");
+
+leftArrow.onclick = function(){
+  index = slider.value;
+  if (index>=0){
+    d3.select("#left-content").selectChildren().remove();
+    d3.select("#right-content").selectChildren().remove();
+    d3.select("#left-content").selectChildren().remove();
+    d3.select("#right-content").selectChildren().remove();
+    slider.value--;
+    slideLabel.innerHTML = "Slide " + slider.value;
+    eval(slideDict[index]);
+
+  }
+};
+
+rightArrow.onclick = function(){
+  index = slider.value;
+  if (index<=6){
+    d3.select("#left-content").selectChildren().remove();
+    d3.select("#right-content").selectChildren().remove();
+    d3.select("#left-content").selectChildren().remove();
+    d3.select("#right-content").selectChildren().remove();
+    slider.value++;
+    slideLabel.innerHTML = "Slide " + slider.value;
+    eval(slideDict[index]);
+  }
+};
+
+slider.oninput = function(){
+  slideLabel.innerHTML = "Slide " + slider.value;
+  d3.select("#left-content").selectChildren().remove();
+  d3.select("#right-content").selectChildren().remove();
+
+  if (slider.value== 1){
+    ch0();
+  }
+  if (slider.value == 2){
+    ch1();
+  }
+  if (slider.value == 3){
+    ch2();
+  }  
+  if (slider.value == 4){
+    ch3();
+  }
+  if (slider.value == 5){
+    ch4();
+  }
+  if (slider.value == 6){
+    ch5();
+  }  
+  if (slider.value == 7){
+    ch6();
+  }
+};
+
+
+
+
+function ch0(){
+  var	margin = {top: 30, right: 0, bottom: 30, left: 75}
+  var width = 650 - margin.left - margin.right;
+  var height = 600 - margin.top - margin.bottom;
+
+
+  var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
+
+
+  var	content = d3.select("#right-content");
+
+svg.append("image").attr("xlink:href","img/giphy.gif");
+content.append('h4').text('What is Fluoride?').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("According to the National Institute of Health, fluoride is the name given to a group of compounds that are composed of naturally occuring elemnt fluorine and one or more other elements.")
+  .append('li').text("In other words, 'flouride' is a negatively charged ion of fluorine, the most electronegative of all of the  halogen (salt-generating) gases and indeed of all elements on the periodic table.")
+  .append('li').text("This makes it highly reactive, especially with certain minerals in the body like calcium.");
+
+content.append('ul')
+.append('li').text("Approximately half of all fluoride ingested  is absorbed by the bodywithin 30 minutes, where it largely collects in calcified tissue.")
+.append('li').text("In children, studies suggest that up to 80% of fluoride remains in the body, largely in the teeth and other bone structures.");
+
+
+
+};
+
+
+function ch1(){
+/* 
+
+CH1
+
+ */
+  /* Basic D3 Updating Pattern for taking data and binding to elements */
+
+  slideLabel.innerHTML = "Slide " + slider.value;
+  
+  var	margin = {top: 30, right: 20, bottom: 30, left: 75}
+  var width = 800 - margin.left - margin.right;
+  var height = 600 - margin.top - margin.bottom;
+  
+  var x = d3.scaleLinear().range([0,width]);
+  var y = d3.scaleLinear().range([height,0]);
+
+
+
+   var valueline = d3.line()
+        .x(function(data){return x(data.year);})
+        .y(function(data){return y(data.totalP);});
+
+    var valueline2 = d3.line()
+    .x(function(data){return x(data.year);})
+    .y(function(data){return y(data.totalF);}).defined(function(data){return data.totalF != '';});
+    
+    // Adds the svg canvas
+   var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
+
+
+  d3.csv("csv/chart1.csv",function(data) {
+          data.year = parseFloat(data.year) || "";
+          data.totalF = parseFloat(data.totalF) || "";
+          data.totalP = parseFloat(data.totalP) || "";
+          return data;
+
+      }).then(function(data){
+      
+        // Scale 
+      x.domain([1940,2020]);
+      
+      y.domain([0,330000000]);
+    
+
+      svg.append("path")
+        .attr("class",'line-path')
+        .attr("d",valueline(data))
+        .attr("stroke",colorScale.green);
+
+        svg.append("path")
+        .attr("class",'line-path')
+        .attr("d",valueline2(data))
+        .attr("stroke",colorScale.yellow)
+        .style("stroke-dasharray",("3,3"));
+
+
+      svg.append("g")
+        .attr("class",'x axis')
+        .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('d')))
+        .attr("transform", "translate(0," + height + ")")
+
+      svg.append("g")
+        .attr('class','y axis')
+        .attr('padding-left','50px')
+        .call(d3.axisLeft(y).ticks(5));
+
+
+
+            const annotations = [
+              {
+                note: {
+                  title: "US Population: 139,928,000",
+                  label: "1945: Beginning of Municipal Fluoridation in Grand Rapids, MI"
+                },
+                connector:{
+                  end:"arrow"
+                },
+                x: 150,
+                y: 333,
+                dy: 50,
+                dx: 50
+              },{
+                note: {
+                  label: "2018: Now, more people in the USA receive fluoridated municipal water than the rest of the world combined",
+                  title: "US Population Receiving Fluoridated Water: 207,426,000",
+                  wrap: 150,
+                  align: "left"
+                },
+                connector: {
+                  end: "arrow" // 'dot' also available
+                },
+                x: 700,
+                y: 265,
+                dy: 80,
+                dx: -80
+              }].map(function(d){ d.color = "#D2222D" ; return d})
+
+      const makeAnnotations = d3.annotation()
+        .type(d3.annotationLabel)
+        .annotations(annotations);
+
+      d3.select("svg")
+        .append("g")
+        .attr("class", "annotation-group")
+        .call(makeAnnotations);
+
+        svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("font-weight", "bold")  
+        .attr("class","title")
+        .text("Total US Population vs. Population Recieving Fluoridated Water");
+
+      });
+
+ 
+ 
+var	content = d3.select("#right-content");
+
+content.append('h4').text('History of Fluoridation the United States').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+
+};
+
+
+
+function ch2(){
+/* 
+
+CH2
+
+ */
+  /* Basic D3 Updating Pattern for taking data and binding to elements */
+
+
+  var	margin = {top: 30, right: 20, bottom: 200, left: 75}
+  var width = 600 - margin.left - margin.right;
+  var height = 600 - margin.top - margin.bottom;
+  
+  var x = d3.scaleBand().range([0,width]).padding(0.1);
+  var y = d3.scaleLinear().range([height,0]);
+
+   var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
+
+
+  d3.csv("csv/chart2.csv",function(data) {
+          data.source = data.source;
+          data.ppm = parseFloat(data.ppm);
+          return data;
+
+      }).then(function(data){
+      
+        // Scale 
+      x.domain(data.map(function(d){return d.source;}));
+      
+      y.domain([0,50]);
+    
+
+      svg.selectAll(".bar")
+        .data(data)
+        .enter().append('rect')
+        .attr("class",'bar')
+        .attr('x',function(d){return x(d.source);})
+        .attr('y',function(d){return y(d.ppm);})
+        .attr('width',x.bandwidth())
+        .attr('height',function(d){return height - y(d.ppm);});
+
+
+
+      svg.append("g")
+        .attr("class",'x axis')
+        .call(d3.axisBottom(x))
+        .attr("transform", "translate(0," + height + ")")
+        .selectAll("text")
+        .attr("y",0)
+        .attr("x",9)
+        .attr("dy",".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
+
+      svg.append("g")
+        .attr('class','y axis')
+        .call(d3.axisLeft(y).ticks(5));
+
+        svg.selectAll(".text")        
+    .data(data)
+    .enter()
+    .append("text")
+    .attr("class","label")
+    .attr("x", (function(d) { return x(d.source) +5; }  ))
+    .attr("y", function(d) { return y(d.ppm) - 20; })
+    .attr("dy", ".75em")
+    .text(function(d) { return d.ppm; });   
+
+    svg.selectAll('.label').filter(function(d, i,list) {
+    return i === list.length - 1;
+}).attr('y', '100').attr('fill', "white");
+
+svg.selectAll('.label').filter(function(d, i,list) {
+    return i === list.length - 2;
+}).attr('y', '200').attr('fill', "white");
+
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 1;
+}).attr('fill', colorScale.red);
+
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 2;
+}).attr('fill', colorScale.red);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 3;
+}).attr('fill', colorScale.yellow);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 4;
+}).attr('fill', colorScale.yellow);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 5;
+}).attr('fill', colorScale.yellow);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 6;
+}).attr('fill', colorScale.yellow);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 7;
+}).attr('fill', colorScale.yellow);
+
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 8;
+}).attr('fill', colorScale.green);
+
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 9;
+}).attr('fill', colorScale.green);
+
+svg.selectAll('.bar').filter(function(d, i,list) {
+    return i === list.length - 10;
+}).attr('fill', colorScale.green);
+
+
+svg.append("text")
+        .attr("x", (width / 2)-75)             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "14px") 
+        .style("font-weight", "bold")  
+        .attr("class","title")
+        .text("Household Goods by Fluoride Content (parts per million)");
+
+      });
+
+    
+
+
+var	content = d3.select("#right-content");
+
+content.append('h4').text('Where does fluoride come from?').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+
+
+};
+
+
+function ch3(){
+// CH3
+const render = data=>{
+  // console.log(data);
+var	margin = {top: 30, right: 20, bottom: 30, left: 75};
+  var width = 600 - margin.left - margin.right;
+  var height = 400 - margin.top - margin.bottom;
+  
+  var x = d3.scaleLinear().domain([2020,1970]).range([width,0]);
+  var y = d3.scaleLinear().domain([0,7.0]).range([height,0]);
+
+  const countryValue = data=>data.country;
+
+  // console.log(countryValue);
+  
+  
+
+
+
+
+
+   var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
+
+
+      svg.selectAll('.line-path').data(d3.groups(data,d=>d.year)).enter().append("path")
+        .attr("class",'line')
+        .attr("d",function(data, i){
+          //console.log(data[1]);
+          return d3.line()
+        .x(function(data){
+          //console.log(data.year);
+          return x(data[1][0].year);})
+        .y(function(data){
+          return y(data[1][0].value);})
+        .curve(d3.curveLinear)
+        .defined(function(data){
+          //console.log(data);
+          return !isNaN(data[1][0].value);})
+        });
+
+
+      svg.append("g")
+        .attr("class",'x axis')
+        .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('d')))
+        .attr("transform", "translate(0," + height + ")");
+
+      svg.append("g")
+        .attr('class','y axis')
+        .attr('padding-left','50px')
+        .call(d3.axisLeft(y).ticks(5));
+
+};
+    
+  d3.csv("csv/ch3.csv",function(data) {
+          data.country = data.country;
+          data.year = parseFloat(data.year);
+          data.value = parseFloat(data.value);
+          data.category = data.category;
+          // console.log(data);
+          return data;
+
+      }).then(function(data){
+        // console.log(data);
+        render(data);
+    });
+
+var	content = d3.select("#right-content");
+
+content.append('h4').text('What are the advantages to fluoridation?').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+.text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+.append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+  };
+
+
+function ch4(){
+      // CH4
+
+var	margin = {top: 30, right: 20, bottom: 30, left: 75}
+  var width = 600 - margin.left - margin.right;
+  var height = 400 - margin.top - margin.bottom;
+  
+  var x = d3.scaleLinear().range([0,width]);
+  var y = d3.scaleLinear().range([height,0]);
+
+
+   var valueline1 = d3.line()
+        .defined(function(data){return !isNaN(data.rate);})
+        .x(function(data){return x(data.year);})
+        .y(function(data){return y(data.rate);})
+        .curve(d3.curveLinear);
+
+    
+    
+    // Adds the svg canvas
+
+
+   var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	    .append("g")
+        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
+
+
+  d3.csv("csv/chart4.csv",function(data) {
+          // console.log(data);
+          data.year = parseFloat(data.year);
+          data.rate = parseFloat(data.rate);
+          return data;
+
+      }).then(function(data){
+      
+        // Scale 
+      x.domain([1945,2004]);
+      
+      y.domain([0,100]);
+    
+
+      svg.append("path")
+        .attr("class",'line-path')
+        .attr("d",valueline1(data))
+        .attr('stroke',colorScale.red);
+
+
+      svg.append("g")
+        .attr("class",'x axis')
+        .call(d3.axisTop(x).ticks(5).tickFormat(d3.format('d')))
+        .attr("transform", "translate(0," + height + ")");
+
+
+      
+      svg.append("g")
+        .attr('class','y axis')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d => d+'%'));
+
+
+        svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("font-weight", "bold")  
+        .attr("class","title")
+        .text("Rising Rates of Dental Fluorisis Among US Children");
+
+
+});
+
+
+
+
+
+  var	content = d3.select("#right-content");
+
+content.append('h4').text('Are there any downsides to fluoridation?').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+    }
+
+
+
+
+
+
+
+
+
+ // CH5
+function ch5(){
+ var column_names = ["Country","Category","Pop Naturally Fluoridated","% Natural","Pop Artifically Fluoridated","% Artifical",
+ "Total Pop. Fluoridated","% Total","Mostly","Fluoride Added to Salt?","Notes"];
+var clicks = {country: 0, category: 0, natural: 0, p_natural: 0, artifical: 0,
+      p_artifical:0,
+      total : 0,
+      p_total : 0,
+      mostly : 0,
+      salt : 0,
+      notes : 0};
+
+// draw the table
+d3.select("#left-content").append("div")
+  .attr("id", "worldTable");
+
+d3.select("#worldTable").append("h4")
+  .attr("id", "country")
+  .text("Fluoridation Metrics Around the World")
+  .attr('font-weight','bold')
+
+  
+var table = d3.select("#worldTable").append("table");
+table.append("thead").append("tr"); 
+
+var headers = table.select("tr").selectAll("th")
+    .data(column_names)
+  .enter()
+    .append("th")
+    .text(function(d) { return d; });
+
+var rows, row_entries, row_entries_no_anchor, row_entries_with_anchor;
+  
+d3.csv("/csv/ch5.csv", function(data) { // loading data from server
+      data.country = data.country;
+      data.category = data.category;
+      data.natural = parseFloat(data.natural);
+      data.p_natural = data.p_natural;
+      data.artifical = data.artifical
+      data.p_artifical = data.p_artifical;
+      data.total = data.total;
+      data.p_total = data.p_total;
+      data.mostly = data.mostly;
+      data.salt = data.salt;
+      data.notes = data.notes;
+      return data;}).then(function(data){
+  // draw table body with rows
+  table.append("tbody");
+
+  // data bind
+  rows = table.select("tbody").selectAll("tr")
+    .data(data).enter().append('tr');
+  
+
+  
+  classColor = []
+  // enter td's in each row
+  row_entries = rows.selectAll("td")
+      .data(function(d) {
+        var arr = [];
+        for (var k in d) {
+          if (d.hasOwnProperty(k)) {
+		    arr.push(d[k]);
+          }
+        }
+        //console.log(arr[1]);
+        if (arr[1]=="Red"){
+          classColor = "Red";
+        }
+        else if (arr[1]=="Yellow"){
+          classColor = "Yellow";
+        }
+        else if (arr[1]=="Green"){
+          classColor="Green"
+        }
+        return [arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7],arr[8],arr[9],arr[10]];
+      })
+    .enter()
+    .append("td");
+      //console.log(classColor)
+    d3.selectAll("tr").each(function(d,i){
+      var tr = d3.select(this);
+      tr.attr("class",classColor[i]);
+    }); 
+
+    //console.log(classColor);
+  // draw row entries with no anchor 
+  row_entries_no_anchor = row_entries.filter(function(d) {return (/https?:\/\//.test(d) == false)
+  })
+  row_entries_no_anchor.text(function(d) { return d; });
+
+    
+  /**  sort functionality **/
+  headers
+    .on("click", function(d) {
+      if (d.srcElement.innerHTML == "Country") {
+        clicks.country++;
+        // even number of clicks
+        if (clicks.country % 2 == 0) {
+          // sort ascending: alphabetically
+          rows.sort(function(a,b) { 
+            if (a.name < b.name) { 
+              return -1; 
+            } else if (a.country > b.country) { 
+              return 1; 
+            } else {
+              return 0;
+            }
+          });
+        // odd number of clicks  
+        } else if (clicks.country % 2 != 0) { 
+          // sort descending: alphabetically
+          rows.sort(function(a,b) { 
+            if (a.country < b.country) { 
+              return 1; 
+            } else if (a.country > b.country) { 
+              return -1; 
+            } else {
+              return 0;
+            }
+          });
+        }
+      } 
+      if (d.srcElement.innerHTML == "Category") {
+        clicks.category++;
+        // even number of clicks
+        if (clicks.category % 2 == 0) {
+          // sort ascending: alphabetically
+          rows.sort(function(a,b) { 
+            if (a.category < b.category) { 
+              return -1; 
+            } else if (a.category > b.category) { 
+              return 1; 
+            } else {
+              return 0;
+            }
+          });
+        // odd number of clicks  
+        } else if (clicks.category % 2 != 0) { 
+          // sort descending: alphabetically
+          rows.sort(function(a,b) { 
+            if (a.category < b.category) { 
+              return 1; 
+            } else if (a.category > b.category) { 
+              return -1; 
+            } else {
+              return 0;
+            }
+          });
+        }
+      } 
+      
+           
+    }) 
+});
+
+var	content = d3.select("#right-content");
+
+content.append('h4').text('What about the rest of the world?').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+};
+
+function ch6(){
+  var	content = d3.select("#right-content");
+
+content.append('h4').text('Ways to avoid excessive flouride:').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right').append('li')
+  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
+  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
+  .append('li').text("However, it was sold commonly as rat poision");
+
+content.append('ul')
+.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+
+}
+
+
+
+
+      
+//   d3.csv("ch"+chartNumber+'.csv', function(dataset){}
+/* 
+  svg = d3.select("body").append("svg").attr({
+    width: 600,
+    height: 400
+  });
+
+  svg.selectAll("rect")  // Begin by selecting a set of elements (say 'rect.bars', rect with class bars)
+    .data(dataset)  // Bind our dataset to the data() method, can be say d3.range(5)
+    .enter()  // Returns placeholders for our missing elements
+    .append("rect")  // Creates the new rectangles
+    .attr({  // Give attributes
+      x: function(d, i) { return i * 101; },
+      y: function(d, i) { return 400 - (d * 5)},  // Notice that y is upside down
+      width: 100,
+      height: function(d) { return d * 5},
+      fill: "orange"
+    }); */
+
+  /* Add more data */
+
+/* 
+  var moreData = d3.range(4);  // Sets properties, but doesn't come in until enter() method
+  var rects = svg.selectAll("rect").data(moreData);
+
+  rects.attr("fill", "#ccc");  // Changes color, but only for the ones we've selected
+  rects.enter();  // Only gets the data you selected
+  rects.exit().attr("fill", "blue");  // Fill color for data that you didn't select
+  //rects.exit().remove();  // Remove elements that you no longer need
+
+ */
+  /*
+  // DOM API for Selection - Example 1
+  document.getElementById('some-id');  // <li id="some-id">Unique element</li>
+  document.getElementsByTagName('p').length;  // 4
+  var reds = document.getElementsByClassName('red');
+  reds[0].innerText // "Red paragraph"
+  */
+
+  // D3 API for Selection - Example 1
+  d3.select('p').size(); // select() only finds one (e.g. 1)
+  d3.selectAll('p').size(); // selectAll() finds all (e.g. 4)
+  var reds = d3.selectAll('.red');  // [ > Array[1]]
+
+  /*
+  // DOM API for Hover - Example 2
+  var clickMe = document.getElementById('click-me');
+  clickMe.onclick = function() {
+    if (this.style.backgroundColor) {
+      this.style.backgroundColor = '';
+    } else {
+      this.style.backgroundColor = 'red';
+    }
+  }
+  */
+
+  // D3 API for Hover - Example 2
+  d3.selectAll('.hover-me')
+    .on('mouseover', function() {
+      this.style.backgroundColor = 'yellow';
+    })
+    .on('mouseleave', function() {
+      this.style.backgroundColor = '';
+    });
+  
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+    
+
+  </script>
+
+
+
+  <!-- End Javascript -->
+
+  </body>
+</html>
