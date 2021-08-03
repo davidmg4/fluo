@@ -45,7 +45,17 @@
       overflow-y:auto;
     }
 
+    tspan{
+      font-size: 12px;
+      text-align: center;
 
+    }
+  .annotation-note-bg{
+    fill-opacity: 10%;
+    fill:darkgray;
+    padding: 0.2em;
+    font-size: small;
+  }
 
 
     ul {
@@ -98,6 +108,7 @@ td, th {
 th {
   background-color: white;
   color: #black ;
+  font-size:14px;
 }
 
 
@@ -184,7 +195,7 @@ data-mdb-ripple-color="dark">
 
   <main class="my-5">
 
-  <body onload="ch0()">
+  <body onload="ch1()">
 
     
 <div class="container-fluid">
@@ -330,8 +341,8 @@ CH1
   slideLabel.innerHTML = "Slide " + slider.value;
   
   var	margin = {top: 30, right: 20, bottom: 30, left: 75}
-  var width = 800 - margin.left - margin.right;
-  var height = 600 - margin.top - margin.bottom;
+  var width = 700 - margin.left - margin.right;
+  var height = 500 - margin.top - margin.bottom;
   
   var x = d3.scaleLinear().range([0,width]);
   var y = d3.scaleLinear().range([height,0]);
@@ -396,16 +407,16 @@ CH1
             const annotations = [
               {
                 note: {
-                  title: "US Population: 139,928,000",
-                  label: "1945: Beginning of Municipal Fluoridation in Grand Rapids, MI"
+                  title: "1945:",
+                  label: "US Population: 139,928,000 Beginning of Municipal Fluoridation in Grand Rapids, MI"
                 },
                 connector:{
-                  end:"arrow"
+                  end:"dot"
                 },
-                x: 150,
-                y: 333,
-                dy: 50,
-                dx: 50
+                x: x(data[30].year),
+                y: y(data[30].totalP)+67,
+                dy: -50,
+                dx: 25
               },{
                 note: {
                   label: "2018: Now, more people in the USA receive fluoridated municipal water than the rest of the world combined",
@@ -414,12 +425,12 @@ CH1
                   align: "left"
                 },
                 connector: {
-                  end: "arrow" // 'dot' also available
+                  end: "dot" // 'dot' also available
                 },
-                x: 700,
-                y: 265,
+                x: x(data[0].year)+75,
+                y: y(data[0].totalF)+32,
                 dy: 80,
-                dx: -80
+                dx: -110
               }].map(function(d){ d.color = "#D2222D" ; return d})
 
       const makeAnnotations = d3.annotation()
@@ -622,11 +633,18 @@ content.append('ul')
 
 function ch3(){
 // CH3
+var	margin = {top: 30, right: 20, bottom: 30, left: 20};
+  var width = 800 - margin.left - margin.right;
+  var height = 600 - margin.top - margin.bottom;
+var	svg = d3.select("#left-content")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+    .append("image").attr("xlink:href","img/ch3.svg");
+/*      
 const render = data=>{
   // console.log(data);
-var	margin = {top: 30, right: 20, bottom: 30, left: 75};
-  var width = 600 - margin.left - margin.right;
-  var height = 400 - margin.top - margin.bottom;
+
   
   var x = d3.scaleLinear().domain([2020,1970]).range([width,0]);
   var y = d3.scaleLinear().domain([0,7.0]).range([height,0]);
@@ -641,14 +659,8 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75};
 
 
 
-   var	svg = d3.select("#left-content")
-	.append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-	    .append("g")
-        .attr("transform",'translate('+margin.left + ',' + margin.top +')');
 
-
+/
       svg.selectAll('.line-path').data(d3.groups(data,d=>d.year)).enter().append("path")
         .attr("class",'line')
         .attr("d",function(data, i){
@@ -690,7 +702,7 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75};
         // console.log(data);
         render(data);
     });
-
+ */
 var	content = d3.select("#right-content");
 
 content.append('h4').text('What are the advantages to fluoridation?').attr('class','font-italic');
@@ -704,6 +716,8 @@ content.append('ul')
 .append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
 .append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
 
+content.append('ul')
+.append('li').text("Note: This chart was not constructed using D3 due to implementation issues. Therefore the SVG should not be counted as part of the interactive visualizations and is for informational purposes only");
   };
 
 
@@ -748,7 +762,7 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75}
         // Scale 
       x.domain([1945,2004]);
       
-      y.domain([0,100]);
+      y.domain([0,75]);
     
 
       svg.append("path")
@@ -759,7 +773,7 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75}
 
       svg.append("g")
         .attr("class",'x axis')
-        .call(d3.axisTop(x).ticks(5).tickFormat(d3.format('d')))
+        .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('d')))
         .attr("transform", "translate(0," + height + ")");
 
 
@@ -773,11 +787,54 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75}
         .attr("x", (width / 2))             
         .attr("y", 0 - (margin.top / 2))
         .attr("text-anchor", "middle")  
-        .style("font-size", "16px") 
+        .style("font-size", "18px") 
         .style("font-weight", "bold")  
         .attr("class","title")
         .text("Rising Rates of Dental Fluorisis Among US Children");
 
+        console.log(data[2]);
+
+        const type = d3.annotationCallout
+
+        const annotations = [
+          {
+            note: {label:"1945",
+                  title: "12.5%"
+          },
+          x: x(data[0].year),
+          y: y(data[0].rate),
+          dx: 50,
+          dy: -50
+          },
+          {
+            note: {label:"1987",
+                  title: data[1].rate+"%"
+          },
+          x: x(data[1].year),
+          y: y(data[1].rate),
+          dx: -50,
+          dy: -50
+          },
+          {
+            note: {label:data[2].year,
+                  title: data[2].rate+"%"
+          },
+          x: x(data[2].year),
+          y: y(data[2].rate),
+          dx: -25,
+          dy: -100
+          }
+        ]
+        
+        const makeAnnotations = d3.annotation()
+        .editMode(true)
+        .notePadding(15)
+        .type(type)
+        .annotations(annotations)
+
+        svg.append("g")
+        .attr("class","annotation-group")
+        .call(makeAnnotations)
 
 });
 
@@ -810,7 +867,7 @@ content.append('ul')
 
  // CH5
 function ch5(){
- var column_names = ["Country","Category","Pop Naturally Fluoridated","% Natural","Pop Artifically Fluoridated","% Artifical",
+ var column_names = ["Country ↕","Category ↕","Pop Naturally Fluoridated","% Natural","Pop Artifically Fluoridated","% Artifical",
  "Total Pop. Fluoridated","% Total","Mostly","Fluoride Added to Salt?","Notes"];
 var clicks = {country: 0, category: 0, natural: 0, p_natural: 0, artifical: 0,
       p_artifical:0,
@@ -982,16 +1039,14 @@ content.append('ul')
 function ch6(){
   var	content = d3.select("#right-content");
 
-content.append('h4').text('Ways to avoid excessive flouride:').attr('class','font-italic');
+content.append('h4').text('Ways to avoid excessive flouride intake:').attr('class','font-italic');
 
 content.append("ul").attr('class','text-right').append('li')
-  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
-  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
-  .append('li').text("However, it was sold commonly as rat poision");
-
-content.append('ul')
-.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+  .text("Prioritize purchase of organic produce and minimally processed foods, especially for grape-based products, teas and chicken.")
+  .append('li').text("Prioritize high quality, ideally reverse-osmosis for drinking whether purchased in bulk at the grocery store or filtered at-home using under-sink units.")
+  .append('li').text("Ensure that children are always supervised while brushing and avoid sweetened toothpastes that may incentivize swallowing.")
+  .append('li').text("Avoid Teflon-coated kitchenware such as pans & air-fryers.")
+  .append('li').text("Steer clear of fluoridated salts and milks in countries where the practice is commonplace.");
 
 }
 
