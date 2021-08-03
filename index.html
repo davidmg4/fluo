@@ -201,7 +201,7 @@ data-mdb-ripple-color="dark">
 
   <main class="my-5">
 
-  <body onload="ch1()">
+  <body onload="ch0()">
 
     
 <div class="container-fluid">
@@ -330,6 +330,9 @@ content.append("ul").attr('class','text-right').append('li')
 content.append('ul')
 .append('li').text("Approximately half of all fluoride ingested  is absorbed by the bodywithin 30 minutes, where it largely collects in calcified tissue.")
 .append('li').text("In children, studies suggest that up to 80% of fluoride remains in the body, largely in the teeth and other bone structures.");
+
+content.append('ul')
+.append('li').text("It's also worth noting that “fluorine has no known metabolic role in mammals.\"");
 
 
 
@@ -472,7 +475,8 @@ content.append("ul").attr('class','text-right').append('li')
 
 content.append('ul')
 .append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride at the rate of 1.0ppm to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents")
+.append('li').text("In 2011, the Department of Health and Human Services reduced its recommended fluoridation level to 0.7ppm due in part to over-ingestion by infants.");
 
 
 };
@@ -624,13 +628,13 @@ var	content = d3.select("#right-content");
 content.append('h4').text('Where does fluoride come from?').attr('class','font-italic');
 
 content.append("ul").attr('class','text-right').append('li')
-  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
-  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
-  .append('li').text("However, it was sold commonly as rat poision");
+  .text("Much .")
+  .append('li').text("Most municipal water systems have to add fluoride to their supply as most watersheds in America are not fluoridated.")
+  .append('li').text("Since the 1970s, a major source of these fluoride salts was fluorosilic acid, a byproduct of fertilizer production that is largely untreated and contains trace contaminants.");
 
 content.append('ul')
-.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+.append('li').text("Another important source of fluoride is toothpaste, with pharmaceutical-grade sodium flouride usually named as the active ingredient.")
+.append('li').text("Finally, fluoride is also used as an important pesticide. mostly in the form of cryolite which is common in grape and wine production.");
 
 
 
@@ -647,6 +651,15 @@ var	svg = d3.select("#left-content")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
     .append("image").attr("xlink:href","img/ch3.svg");
+
+d3.select("svg").append("text")
+        .attr("x", (width / 2)-50)             
+        .attr("y", 35)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "14px") 
+        .style("font-weight", "bold")  
+        .attr("class","title")
+        .text("Falling Rates of Dental Cavities Around the Developed World");
 /*      
 const render = data=>{
   // console.log(data);
@@ -714,16 +727,16 @@ var	content = d3.select("#right-content");
 content.append('h4').text('What are the advantages to fluoridation?').attr('class','font-italic');
 
 content.append("ul").attr('class','text-right').append('li')
-.text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
-.append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
-  .append('li').text("However, it was sold commonly as rat poision");
+.text("Worldwide oral health has improved substantially over the past 50 years, and interestingly, most of developed world has improved rather uniformly over time.")
+.append('li').text("Much of this can credited to the rise of fluoride toothpastes, which deliver a high dose of mineralizing fluoride topically/directly to the teeth, without needing to be swalloed.")
+  .append('li').text("Certainly other baseline improvements to public health and hygiene have contributed to this steady improvement.");
 
 content.append('ul')
-.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+.append('li').text("However, countries that do not fluoridate their water supplies (shown here in green) have demonstrated the same downward trend in incidence of dental cavities.")
+.append('li').text("And yet, unfortunately poor oral health and cavities continue to disproportionately affect lowest-income families.");
 
 content.append('ul')
-.append('li').text("Note: This chart was not constructed using D3 due to implementation issues. Therefore the SVG should not be counted as part of the interactive visualizations and is for informational purposes only");
+.append('li').text("Editor's Note: This chart was not constructed using D3 due to implementation issues. Therefore the SVG should not be counted as part of the interactive visualizations and is for informational purposes only");
   };
 
 
@@ -796,9 +809,9 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75}
         .style("font-size", "18px") 
         .style("font-weight", "bold")  
         .attr("class","title")
-        .text("Rising Rates of Dental Fluorisis Among US Children");
+        .text("Rising Rates of Dental Fluorosis Among US Children");
 
-        console.log(data[2]);
+        //console.log(data[2]);
 
         const type = d3.annotationCallout
 
@@ -853,13 +866,13 @@ var	margin = {top: 30, right: 20, bottom: 30, left: 75}
 content.append('h4').text('Are there any downsides to fluoridation?').attr('class','font-italic');
 
 content.append("ul").attr('class','text-right').append('li')
-  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
-  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
-  .append('li').text("However, it was sold commonly as rat poision");
+  .text("Serious reported side effects of fluoride are rare in the US -- largely limited to industry accidents at this point.")
+  .append('li').text("However, a mild-to-moderate cosmetic condition called dental fluorosis is on the rise.")
+  .append('li').text("According to the CDC's own data, rates of dental fluorosis have more-than-tripled since municipal fluoridation was introduced in Michigan in 1945.");
 
 content.append('ul')
-.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+.append('li').text("Furthermore, there are concerns that ingestion could be exceeding levels recommended by the American Dental Association depending on lifestyle factors such as warm weather, intake of conventionally-raised processed foods and beverages and the rise of Teflon-coated cookware.")
+.append('li').text("What's worse, a 2012 meta-analysis study from Harvard School of Public Health suggested that exposure to higher-than-recommended levels of fluoride in childhood could lead to sub-optimal neurodevelopment and/or reduction in IQ.");
 
     }
 
@@ -1032,28 +1045,52 @@ var	content = d3.select("#right-content");
 content.append('h4').text('What about the rest of the world?').attr('class','font-italic');
 
 content.append("ul").attr('class','text-right').append('li')
-  .text("Before the 1940s, there was no addition of fluoride salts to municipal water supplies anywhere in the world.")
-  .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
-  .append('li').text("However, it was sold commonly as rat poision");
+  .text("Attitudes regarding municipal fluoridation vary widely around the world.")
+  .append('li').text("For example, Singapore is the first nation in history to achieve a 100% fluoridation rate.")
+  .append('li').text("However, more than 95% of Europeans are not subject to municipal water fluoridation, with the practice being outlawed or banned in some instances. The consensus therein appears to be that municipal water systems are not seen as a way to treat illness, as there is limited ability to consent.")
+  .append('li').text("It's also important to take into account natural fluoridation, which is endemic in some regions, especially in China and India, the latter of which also reports cases of skeletal fluorosis on occasion.");
 
 content.append('ul').text("Categories:")
-.append('li').text("Green: < 1% Population Served by Artifically Fluoridated Water Systems").attr('background-color',colorScale.green)
+.append('li').text("Green: < 1% Population Served by Artificially Fluoridated Water Systems").attr('background-color',colorScale.green)
 .append('li').text("Yellow: < 25% Population Served by Artificially Fluoridated Water Systems")
-.append('li').text("Red: > 25% Population Served by Artifically Fluoridated Water Systems");
+.append('li').text("Red: > 25% Population Served by Artificially Fluoridated Water Systems");
 
 };
 
 function ch6(){
-  var	content = d3.select("#right-content");
+  var	content = d3.select("#left-content");
 
-content.append('h4').text('Ways to avoid excessive flouride intake:').attr('class','font-italic');
+  content.append('h4').text('Conclusions').attr('class','font-italic');
 
-content.append("ul").attr('class','text-right').append('li')
-  .text("Prioritize purchase of organic produce and minimally processed foods, especially for grape-based products, teas and chicken.")
-  .append('li').text("Prioritize high quality, ideally reverse-osmosis for drinking whether purchased in bulk at the grocery store or filtered at-home using under-sink units.")
+content.append("ul").attr('class','text-right')
+  .append('li').text("Fluoridation of municipal water supplies is a uniquely American phenomeon in history -- only recently have other countries like Australia and Brazil followed suit.")
+  .append('li').text("There is good data to suggest that fluoridated toothpastes applied topically can be an important part of oral health, especially for those without good access to dentists and other oral health professionals.")
+  .append('li').text("However, too much of anything -- even a good thing -- can potentially be harmful.")
+  .append('li').text("Other countries have found ways to improve oral health among their populations on more of an opt-in basis (e.g. adding to domestically produced salt or milk).")
+  .append('li').text("In any case, awareness is the first step in any journey -- and we are just reaching the tip of the iceberg in terms of awareness about fluoride and the extent of its effects -- positive or negative -- on the human body. ");
+
+content.append('h4').text('Ways to avoid excessive fluoride intake').attr('class','font-italic');
+
+content.append("ul").attr('class','text-right')
+  .append('li').text("Prioritize purchase of organic produce and minimally processed foods, especially for grape-based products, teas and chicken.")
+  .append('li').text("Look for sources of high quality, reverse-osmosis-treated for drinking, whether purchased in bulk at the grocery store or filtered at-home using under-sink units.")
   .append('li').text("Ensure that children are always supervised while brushing and avoid sweetened toothpastes that may incentivize swallowing.")
   .append('li').text("Avoid Teflon-coated kitchenware such as pans & air-fryers.")
-  .append('li').text("Steer clear of fluoridated salts and milks in countries where the practice is commonplace.");
+  .append('li').text("Be aware of fluoridated salts and milks in countries where the practice is commonplace.");
+
+  var	right_content = d3.select("#right-content");
+
+right_content.append('h4').text('References').attr('class','font-italic');
+
+right_content.append("ul").attr('class','text-right').append('li')
+  .text("Lee, Stephen; et al. (2014). \"Monofluoroacetate-Containing Plants That Are Potentially Toxic to Livestock\". Journal of Agricultural and Food Chemistry.")
+  .append('li').text("National Cancer Institute. \"Fluoridated Water Fact Sheet.\" NIH. https://www.cancer.gov/about-cancer/causes-prevention/risk/myths/fluoridated-water-fact-sheet.")
+  .append('li').text("\"Fluoridation Growth.\" Centers for Disease Control. https://www.cdc.gov/fluoridation/statistics/FSGrowth.htm.")
+  .append('li').text("Institute of Medicine (US) Standing Committee on the Scientific Evaluation of Dietary Reference Intakes. Dietary Reference Intakes for Calcium, Phosphorus, Magnesium, Vitamin D, and Fluoride. https://www.ncbi.nlm.nih.gov/books/NBK109832/.")
+  .append('li').text("FoodData Central. USDA. https://fdc.nal.usda.gov/")
+  .append('li').text("Choi AL, Sun G, Zhang Y, Grandjean P. Developmental fluoride neurotoxicity: a systematic review and meta-analysis. Environ Health Perspect. 2012;120(10):1362-1368. doi:10.1289/ehp.1104912")
+  .append('li').text("Toxic Treatment: Fluoride's Transformation from Industrial Waste to Public Health Miracle. Ohio State University. https://origins.osu.edu/fr/article/toxic-treatment-fluorides-transformation-industrial-waste-public-health-miracle")
+  .append('li').text("Oral Health Country/Area Profile Project. Malmo University. https://capp.mau.se/");
 
 }
 
