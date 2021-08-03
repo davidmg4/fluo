@@ -42,7 +42,7 @@
     body{
       color:#656565;
       font-family: Georgia, 'Times New Roman', Times, serif;
-      overflow-y:hidden;
+      overflow-y:auto;
     }
 
 
@@ -130,10 +130,7 @@ margin:0 0 0 0;
   line-height: auto !important;
 }
 
-#slide-label{
-      margin:auto; 
-    display:table;
-}
+
 button{
   background: transparent;
   border: none !important;
@@ -179,7 +176,7 @@ td.Red {
   <button type="button" id="left-click" class="left-button btn btn-floating"  data-mdb-ripple-color="dark">
   <i class="fas fa-angle-left fa-3x"></i></button>
 
-  <input type="range" value="1" min="1" max="6" class="slider navbar-toggler" id="range" title=""><span id="slideLabel">></span>
+  <input type="range" value="1" min="1" max="7" class="slider navbar-toggler" id="range" title=""><span id="slideLabel"></span>
 
 <button type="button" id="right-click" class="btn btn-floating right-button "
 data-mdb-ripple-color="dark">
@@ -233,7 +230,7 @@ var rightArrow = document.getElementById("right-click");
 
 leftArrow.onclick = function(){
   index = slider.value;
-  if (index>=0){
+  if (index>0){
     d3.select("#left-content").selectChildren().remove();
     d3.select("#right-content").selectChildren().remove();
     d3.select("#left-content").selectChildren().remove();
@@ -247,7 +244,7 @@ leftArrow.onclick = function(){
 
 rightArrow.onclick = function(){
   index = slider.value;
-  if (index<=6){
+  if (index<7){
     d3.select("#left-content").selectChildren().remove();
     d3.select("#right-content").selectChildren().remove();
     d3.select("#left-content").selectChildren().remove();
@@ -1000,73 +997,6 @@ content.append('ul')
 
 
 
-
-      
-//   d3.csv("ch"+chartNumber+'.csv', function(dataset){}
-/* 
-  svg = d3.select("body").append("svg").attr({
-    width: 600,
-    height: 400
-  });
-
-  svg.selectAll("rect")  // Begin by selecting a set of elements (say 'rect.bars', rect with class bars)
-    .data(dataset)  // Bind our dataset to the data() method, can be say d3.range(5)
-    .enter()  // Returns placeholders for our missing elements
-    .append("rect")  // Creates the new rectangles
-    .attr({  // Give attributes
-      x: function(d, i) { return i * 101; },
-      y: function(d, i) { return 400 - (d * 5)},  // Notice that y is upside down
-      width: 100,
-      height: function(d) { return d * 5},
-      fill: "orange"
-    }); */
-
-  /* Add more data */
-
-/* 
-  var moreData = d3.range(4);  // Sets properties, but doesn't come in until enter() method
-  var rects = svg.selectAll("rect").data(moreData);
-
-  rects.attr("fill", "#ccc");  // Changes color, but only for the ones we've selected
-  rects.enter();  // Only gets the data you selected
-  rects.exit().attr("fill", "blue");  // Fill color for data that you didn't select
-  //rects.exit().remove();  // Remove elements that you no longer need
-
- */
-  /*
-  // DOM API for Selection - Example 1
-  document.getElementById('some-id');  // <li id="some-id">Unique element</li>
-  document.getElementsByTagName('p').length;  // 4
-  var reds = document.getElementsByClassName('red');
-  reds[0].innerText // "Red paragraph"
-  */
-
-  // D3 API for Selection - Example 1
-  d3.select('p').size(); // select() only finds one (e.g. 1)
-  d3.selectAll('p').size(); // selectAll() finds all (e.g. 4)
-  var reds = d3.selectAll('.red');  // [ > Array[1]]
-
-  /*
-  // DOM API for Hover - Example 2
-  var clickMe = document.getElementById('click-me');
-  clickMe.onclick = function() {
-    if (this.style.backgroundColor) {
-      this.style.backgroundColor = '';
-    } else {
-      this.style.backgroundColor = 'red';
-    }
-  }
-  */
-
-  // D3 API for Hover - Example 2
-  d3.selectAll('.hover-me')
-    .on('mouseover', function() {
-      this.style.backgroundColor = 'yellow';
-    })
-    .on('mouseleave', function() {
-      this.style.backgroundColor = '';
-    });
-  
 
 
 
