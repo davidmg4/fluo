@@ -119,9 +119,15 @@ tr:hover td { background-color: #edf8b1; }
   color: white;
   padding-top:2em;
   background: rgb(24,45,32);
-background: linear-gradient(180deg, rgba(24,45,32,1) 0%, rgba(96,189,77,1) 78%);
-margin:0 0 0 0;
+  background: linear-gradient(180deg, rgba(24,45,32,1) 0%, rgba(96,189,77,1) 78%);
+  margin:0 0 0 0;
+
   
+}
+.upper{
+  color: rgba(0,0,0,0.6);
+text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
+                 0px -5px 35px rgba(255,255,255,0.3);
 }
 
 #left-button, #right-button{
@@ -178,7 +184,7 @@ td.Red {
     <div class="container-fluid navbar-nav" id="top_bar">
       <section class="text-center">
         <div>
-          <h1 class="mb-1 navbar-text upper"><strong>Fluoride Revisited</strong></h1>
+          <h1 class="mb-5 navbar-text upper"><strong>Fluoride Revisited</strong></h1>
           
         </div>
       </section>
@@ -960,7 +966,7 @@ d3.csv("/csv/ch5.csv", function(data) { // loading data from server
   /**  sort functionality **/
   headers
     .on("click", function(d) {
-      if (d.srcElement.innerHTML == "Country") {
+      if (d.srcElement.innerHTML == "Country ↕") {
         clicks.country++;
         // even number of clicks
         if (clicks.country % 2 == 0) {
@@ -988,7 +994,7 @@ d3.csv("/csv/ch5.csv", function(data) { // loading data from server
           });
         }
       } 
-      if (d.srcElement.innerHTML == "Category") {
+      if (d.srcElement.innerHTML == "Category ↕") {
         clicks.category++;
         // even number of clicks
         if (clicks.category % 2 == 0) {
@@ -1030,9 +1036,10 @@ content.append("ul").attr('class','text-right').append('li')
   .append('li').text("Indeed before the establishment of the FDA in the Food, Drug and Cosmetic Act of 1938, there was no recorded medical use of fluoride.")
   .append('li').text("However, it was sold commonly as rat poision");
 
-content.append('ul')
-.append('li').text("That said, in the 1940s, scientists discovered that people drinking from water supplies that had high levels of fluoride had fewer dental cavities than other places.")
-.append('li').text("In 1945, the city of Grand Rapids in Michigan began adding fluoride to the municipal water supply as part of a 15-year study to assess the potential oral health impact of residents");
+content.append('ul').text("Categories:")
+.append('li').text("Green: < 1% Population Served by Artifically Fluoridated Water Systems").attr('background-color',colorScale.green)
+.append('li').text("Yellow: < 25% Population Served by Artificially Fluoridated Water Systems")
+.append('li').text("Red: > 25% Population Served by Artifically Fluoridated Water Systems");
 
 };
 
